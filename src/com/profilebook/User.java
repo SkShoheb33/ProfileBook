@@ -21,12 +21,14 @@ public class User {
 		if(password.equals(cPassword)) {
 			System.out.println("Password updated");
 			try {			
-//				Class.forName("oracle.jdbc.driver.OracleDriver");
-				Class.forName("com.mysql.cj.jdbc.Driver");
-//				Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+//				Class.forName("com.mysql.cj.jdbc.Driver");
+				Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 				Statement smt = con.createStatement();
+			
 				PreparedStatement pmst = con.prepareStatement("Insert into users values(?,?,?,?,?)");
+				// this method used to prepare the  SQL queries 
 				pmst.setInt(1, count++);
 				pmst.setString(2, userName);
 				pmst.setString(3, password);
@@ -63,19 +65,17 @@ public class User {
 		
 		
 		try {			
-//			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Class.forName("com.mysql.cj.jdbc.Driver");
-//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			ResultSet rs = smt.executeQuery("select * from users where username =\'"+userName+"\'");
-//			System.out.println("here ");
 			if(!rs.next()) {
 				System.out.println("No user name in the database");
 				register();
 			}
 			String dPassword;
-			System.out.print(rs.getString(3));
 			dPassword = rs.getString(3);
 			if(password.equals(dPassword)) { // password matches
 				int count = smt.executeUpdate("update users set isactive ="+1+" where username =\'"+userName+"\'");
@@ -99,8 +99,8 @@ public class User {
 	public void logout(String userName) {
 		Connection con;
 		try {
-//			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
+			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			int count = smt.executeUpdate("update users set isactive ="+0+" where username =\'"+userName+"\'");
 			System.out.println("Logout succuessfully");
@@ -113,10 +113,10 @@ public class User {
 	
 	public void like(ResultSet rs) {
 		try {
-//			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Class.forName("com.mysql.cj.jdbc.Driver");
-//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			int count = smt.executeUpdate("update posts set likes ="+(rs.getInt(4)+1)+" where text =\'"+rs.getString(2)+"\'");
 		}catch(Exception e) {
@@ -126,18 +126,18 @@ public class User {
 	
 	public void view() {
 		try {
-//			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			Class.forName("com.mysql.cj.jdbc.Driver");
 			Scanner scan = new Scanner(System.in);
-//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
-			Statement smt = con.createStatement();
+			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
+			Statement smt = con.createStatement();//actually the post has text and created by and created in time 
 			ResultSet rs = smt.executeQuery("select * from posts");
 			while(rs.next()) {
 				System.out.println("***************************\n");
 				System.out.println(rs.getString(2)+"\n");
 				System.out.println("Created in : "+rs.getString(3));
-				System.out.println("Created by : "+rs.getString(4));
+				System.out.println("Created by : "+rs.getString(5));
 				System.out.println("\n***************************");
 				System.out.print("Do you want to like this [yes/no]?");
 				String s = scan.nextLine();
@@ -153,14 +153,13 @@ public class User {
 	}
 	
 	public void post(String userName) {
-		
 		Scanner scan = new Scanner(System.in);
-		System.out.println("Enter text to post....");
+		System.out.println("Enter text to post....");//yes
 		String text = scan.nextLine();
 		LocalDate date = LocalDate.now();
 		try {
-//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
+			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			PreparedStatement pmst = con.prepareStatement("Insert into posts values(?,?,?,?,?)");
 			pmst.setInt(1, ++p);
 			pmst.setString(2, text);
@@ -183,9 +182,8 @@ public class User {
 	public void showMenu() {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter \"post\" for post.\nEnter 'view' for view.\nEnter \"logout\" for logout.");
-//		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 		String choice = scan.nextLine();
-		if(choice.equalsIgnoreCase("create")) {
+		if(choice.equalsIgnoreCase("post")) {
 			post(userName);
 		}
 		if(choice.equalsIgnoreCase("view")) {
