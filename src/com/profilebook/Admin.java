@@ -19,8 +19,10 @@ public class Admin {
 		cPassword = scan.nextLine();
 		if(password.equals(cPassword)) {
 			try {			
-				Class.forName("oracle.jdbc.driver.OracleDriver");
-				Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//				Class.forName("oracle.jdbc.driver.OracleDriver");
+				Class.forName("com.mysql.cj.jdbc.Driver");
+//				Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 				Statement smt = con.createStatement();
 				PreparedStatement pmst = con.prepareStatement("Insert into admins values(?,?,?,?)");
 				pmst.setInt(1, ++count);
@@ -58,8 +60,10 @@ public class Admin {
 		
 		
 		try {			
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			ResultSet rs = smt.executeQuery("select * from admins where adminname =\'"+userName+"\'");
 //			System.out.println("here ");
@@ -82,7 +86,8 @@ public class Admin {
 	public void logout(String userName) {
 		Connection con;
 		try {
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			int count = smt.executeUpdate("update admins set isactive ="+0+" where username =\'"+userName+"\'");
 			System.out.println("Logout succuessfully");
@@ -95,8 +100,10 @@ public class Admin {
 	
 	public void like(ResultSet rs) {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			int count = smt.executeUpdate("update posts set likes ="+(rs.getInt(4)+1)+" where text =\'"+rs.getString(2)+"\'");
 		}catch(Exception e) {
@@ -106,9 +113,11 @@ public class Admin {
 	
 	public void view() {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			Scanner scan = new Scanner(System.in);
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			ResultSet rs = smt.executeQuery("select * from posts");
 			while(rs.next()) {
@@ -132,8 +141,10 @@ public class Admin {
 	
 	public void createGroup(String userName) {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			Scanner scan = new Scanner(System.in);
 			System.out.println("Do you want the user to add/delete/change the group ? ");

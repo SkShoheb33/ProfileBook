@@ -21,8 +21,10 @@ public class User {
 		if(password.equals(cPassword)) {
 			System.out.println("Password updated");
 			try {			
-				Class.forName("oracle.jdbc.driver.OracleDriver");
-				Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//				Class.forName("oracle.jdbc.driver.OracleDriver");
+				Class.forName("com.mysql.cj.jdbc.Driver");
+//				Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 				Statement smt = con.createStatement();
 				PreparedStatement pmst = con.prepareStatement("Insert into users values(?,?,?,?,?)");
 				pmst.setInt(1, count++);
@@ -61,8 +63,10 @@ public class User {
 		
 		
 		try {			
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			ResultSet rs = smt.executeQuery("select * from users where username =\'"+userName+"\'");
 //			System.out.println("here ");
@@ -95,7 +99,8 @@ public class User {
 	public void logout(String userName) {
 		Connection con;
 		try {
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			int count = smt.executeUpdate("update users set isactive ="+0+" where username =\'"+userName+"\'");
 			System.out.println("Logout succuessfully");
@@ -108,8 +113,10 @@ public class User {
 	
 	public void like(ResultSet rs) {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			int count = smt.executeUpdate("update posts set likes ="+(rs.getInt(4)+1)+" where text =\'"+rs.getString(2)+"\'");
 		}catch(Exception e) {
@@ -119,9 +126,11 @@ public class User {
 	
 	public void view() {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			Scanner scan = new Scanner(System.in);
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			Statement smt = con.createStatement();
 			ResultSet rs = smt.executeQuery("select * from posts");
 			while(rs.next()) {
@@ -150,7 +159,8 @@ public class User {
 		String text = scan.nextLine();
 		LocalDate date = LocalDate.now();
 		try {
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+//			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","9020");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 			PreparedStatement pmst = con.prepareStatement("Insert into posts values(?,?,?,?,?)");
 			pmst.setInt(1, ++p);
 			pmst.setString(2, text);
@@ -173,6 +183,7 @@ public class User {
 	public void showMenu() {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter \"post\" for post.\nEnter 'view' for view.\nEnter \"logout\" for logout.");
+//		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/w3d3","localhost","root");
 		String choice = scan.nextLine();
 		if(choice.equalsIgnoreCase("create")) {
 			post(userName);
